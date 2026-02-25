@@ -1,6 +1,6 @@
 {
-  "id": "pf2e-extra-feat-slots",
-  "title": "PF2e Extra Feat Slots",
+  "id": "pf2e-sf2e-extra-feat-slots",
+  "title": "PF2e/SF2e Extra Feat Slots",
   "description": "<p>A module that adds extra feat slot categories for things like Skill Paragon, Ancestry Paragon, or even Magaambyan branch benefit feats.</p>",
   "version": "#{VERSION}#",
   "compatibility": {
@@ -21,7 +21,18 @@
       {
         "id": "pf2e",
         "type": "system",
-        "compatibility": {}
+        "manifest": "https://raw.githubusercontent.com/foundryvtt/pf2e/master/system.pf2e.json",
+        "compatibility": {
+		  "minimum": "7.10.1"
+		}
+      },
+      {
+        "id": "sf2e",
+        "type": "system",
+        "manifest": "https://raw.githubusercontent.com/foundryvtt/pf2e/master/system.sf2e.json",
+        "compatibility": {
+		  "minimum": "0.0.3"
+		}
       }
     ]
   },
@@ -51,15 +62,26 @@
   "readme": "README.md",
   "packs": [
     {
-      "name": "skill-paragon-feats",
-      "label": "Skill Paragon Feats",
-      "path": "packs/skill-paragon-feats",
+      "name": "pf2e-skill-paragon-feats",
+      "label": "Skill Paragon Feats (PF2e)",
+      "path": "packs/pf2e-skill-paragon-feats",
       "type": "Item",
+      "system": "pf2e",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
-      },
-      "system": "pf2e"
+      }
+    },
+    {
+      "name": "sf2e-skill-paragon-feats",
+      "label": "Skill Paragon Feats (SF2e)",
+      "path": "packs/sf2e-skill-paragon-feats",
+      "type": "Item",
+      "system": "sf2e",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
     }
   ],
   "flags": {}

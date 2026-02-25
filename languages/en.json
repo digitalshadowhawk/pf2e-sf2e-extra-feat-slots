@@ -1,5 +1,5 @@
 {
-    "pf2e-extra-feat-slots": {
+    "pf2e-sf2e-extra-feat-slots": {
         "SETTINGS": {
             "ancestryParagon": {
                 "name": "Ancestry Paragon",
@@ -16,7 +16,8 @@
                 "hint": "Adds an additional feat slot for each level for Magaambyan Branch Benefit Feats.",
                 "categories": {
                     "branchLabel": "Magambya Branch Selection",
-                    "benefitsLabel": "Magaambya Branch Benefits"
+                    "benefitsLabel": "Magaambya Primary Branch Benefits",
+                    "benefitsLabelSecondary": "Magaambya Secondary Branch Benefits"
                 }
             }
         }
