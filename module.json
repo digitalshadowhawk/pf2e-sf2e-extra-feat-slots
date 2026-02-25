@@ -1,0 +1,66 @@
+{
+  "id": "pf2e-extra-feat-slots",
+  "title": "PF2e Extra Feat Slots",
+  "description": "<p>A module that adds extra feat slot categories for things like Skill Paragon, Ancestry Paragon, or even Magaambyan branch benefit feats.</p>",
+  "version": "#{VERSION}#",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13",
+    "maximum": "13"
+  },
+  "authors": [
+    {
+      "name": "Hawk",
+      "url": "https://github.com/digitalshadowhawk",
+      "discord": "digitalshadowhawk",
+      "flags": {}
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "pf2e",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  },
+  "esmodules": [
+    "scripts/module.js"
+  ],
+  "scripts": [
+    "scripts/lib/lib.js"
+  ],
+  "styles": [
+    {
+      "src": "styles/module.css"
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "languages/en.json",
+      "flags": {}
+    }
+  ],
+  "url": "#{URL}#",
+  "manifest": "#{MANIFEST}#",
+  "download": "#{DOWNLOAD}#",
+  "license": "LICENSE",
+  "readme": "README.md",
+  "packs": [
+    {
+      "name": "skill-paragon-feats",
+      "label": "Skill Paragon Feats",
+      "path": "packs/skill-paragon-feats",
+      "type": "Item",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "system": "pf2e"
+    }
+  ],
+  "flags": {}
+}

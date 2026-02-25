@@ -1,0 +1,24 @@
+{
+    "pf2e-extra-feat-slots": {
+        "SETTINGS": {
+            "ancestryParagon": {
+                "name": "Ancestry Paragon",
+                "hint": "Adds an additional ancestry feat at first level and every odd level where one isn't already given.",
+                "label": "Ancestry Paragon Feats"
+            },
+            "skillParagon": {
+                "name": "Skill Paragon",
+                "hint": "Adds an additional Skill Feat slot for a special feat that grants additional feats based on what skill the feat is for.",
+                "label": "Skill Paragon Feats"
+            },
+            "magaambyaBenefits": {
+                "name": "Magaambya Branch Benefits",
+                "hint": "Adds an additional feat slot for each level for Magaambyan Branch Benefit Feats.",
+                "categories": {
+                    "branchLabel": "Magambya Branch Selection",
+                    "benefitsLabel": "Magaambya Branch Benefits"
+                }
+            }
+        }
+    }
+}
