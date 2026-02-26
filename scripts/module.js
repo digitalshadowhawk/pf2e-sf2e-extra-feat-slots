@@ -17,15 +17,17 @@ Hooks.on('init', function() {
 		default: "false",
 		type: Boolean
 	});
-	game.settings.register("pf2e-sf2e-extra-feat-slots", "magaambyaBenefits", {
-		name: "pf2e-sf2e-extra-feat-slots.SETTINGS.magaambyaBenefits.name",
-        hint: "pf2e-sf2e-extra-feat-slots.SETTINGS.magaambyaBenefits.hint",
-		scope: "world",
-		config: "true",
-    requiresReload: true,
-		default: "false",
-		type: Boolean
-	});
+  if(game.system.id==='pf2e') {
+	  game.settings.register("pf2e-sf2e-extra-feat-slots", "magaambyaBenefits", {
+		  name: "pf2e-sf2e-extra-feat-slots.SETTINGS.magaambyaBenefits.name",
+      hint: "pf2e-sf2e-extra-feat-slots.SETTINGS.magaambyaBenefits.hint",
+		  scope: "world",
+		  config: "true",
+      requiresReload: true,
+		  default: "false",
+		  type: Boolean
+	  });
+  }
 });
 
 Hooks.once("ready", () => {
@@ -38,8 +40,10 @@ async function variantFeats() {
   const magaambyaBenefits = game.settings.get("pf2e-sf2e-extra-feat-slots", "magaambyaBenefits");
 
   // Add campaign feat sections if enabled
-  if (ancestryParagon || skillParagon || magaambyaBenefits) {
-    const campaignFeatSections = game.settings.get("pf2e", "campaignFeatSections");
+  if (ancestryParagon || skillParagon || magaambyaBenefits) {  
+    
+    const campaignFeatSections = game.settings.get(game.system.id, "campaignFeatSections");
+
     if (ancestryParagon) {
       if (!campaignFeatSections.find((section) => section.id === "ancestryParagon")) {
         campaignFeatSections.push({
@@ -85,10 +89,11 @@ async function variantFeats() {
       }
     }
 
-    await game.settings.set("pf2e", "campaignFeatSections", campaignFeatSections);
+    await game.settings.set(game.system.id, "campaignFeatSections", campaignFeatSections);
   }
 
-  const campaignFeatSections = game.settings.get("pf2e", "campaignFeatSections");
+  const campaignFeatSections = game.settings.get(game.system.id, "campaignFeatSections");
+
   // ... or remove it if disabled.
   if (
     campaignFeatSections &&
@@ -143,6 +148,7 @@ async function variantFeats() {
       ),
       1,
     );
-    await game.settings.set("pf2e", "campaignFeatSections", campaignFeatSections);
+    
+    await game.settings.set(game.system.id, "campaignFeatSections", campaignFeatSections);
   }
 }
