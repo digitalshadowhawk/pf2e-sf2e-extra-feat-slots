@@ -3,8 +3,10 @@
 This module aims to add extra feat slots for assorted variant rules and subsystems including:
 - Ancestry Paragon
 <img width="1176" height="401" alt="image" src="https://github.com/user-attachments/assets/8e3efaf9-89f0-460e-bfbe-66fea8d44279" />
+
 - Skill Paragon
 <img width="1171" height="433" alt="image" src="https://github.com/user-attachments/assets/cbd92716-ff85-4b41-ab59-21a301cb7748" />
+
 - Magaambya Branch Benefits
 <img width="1164" height="1942" alt="image" src="https://github.com/user-attachments/assets/7e3d46aa-d4ca-43c7-9e4d-64b8c09c9165" />
 
