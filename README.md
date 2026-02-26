@@ -1,4 +1,4 @@
-# pf2e-extra-feat-slots
+# PF2e/SF2e Extra Feat Slots
 
 This module aims to add extra feat slots for assorted variant rules and subsystems including:
 - Ancestry Paragon
