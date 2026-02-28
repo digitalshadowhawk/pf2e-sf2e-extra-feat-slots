@@ -104,7 +104,7 @@ async function variantFeats() {
       campaignFeatSections.findIndex((section) => section.id === "ancestryParagon"),
       1,
     );
-    await game.settings.set("pf2e", "campaignFeatSections", campaignFeatSections);
+    await game.settings.set(game.system.id, "campaignFeatSections", campaignFeatSections);
   }
 
   if (
@@ -120,7 +120,7 @@ async function variantFeats() {
       ),
       1,
     );
-    await game.settings.set("pf2e", "campaignFeatSections", campaignFeatSections);
+    await game.settings.set(game.system.id, "campaignFeatSections", campaignFeatSections);
   }
 
   if (

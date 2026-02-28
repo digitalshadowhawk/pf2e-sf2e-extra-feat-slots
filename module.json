@@ -4,8 +4,8 @@
   "description": "<p>A module that adds extra feat slot categories for things like Skill Paragon, Ancestry Paragon, or even Magaambyan branch benefit feats.</p>",
   "version": "#{VERSION}#",
   "compatibility": {
-    "minimum": "13",
-    "verified": "13",
+    "minimum": "13.351",
+    "verified": "13.351",
     "maximum": "13"
   },
   "authors": [
@@ -23,16 +23,16 @@
         "type": "system",
         "manifest": "https://raw.githubusercontent.com/foundryvtt/pf2e/master/system.pf2e.json",
         "compatibility": {
-		  "minimum": "7.10.1"
-		}
+          "minimum": "7.10.1"
+        }
       },
       {
         "id": "sf2e",
         "type": "system",
         "manifest": "https://raw.githubusercontent.com/foundryvtt/pf2e/master/system.sf2e.json",
         "compatibility": {
-		  "minimum": "0.0.3"
-		}
+          "minimum": "0.0.3"
+        }
       }
     ]
   },
@@ -78,6 +78,16 @@
       "path": "packs/sf2e-skill-paragon-feats",
       "type": "Item",
       "system": "sf2e",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "pf2e-sf2e-extra-feat-slots-macros",
+      "label": "Macros",
+      "path": "packs/pf2e-sf2e-extra-feat-slots-macros",
+      "type": "Macro",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
