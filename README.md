@@ -21,4 +21,64 @@ To use, simply enable the module and tick on whichever setts of feat slots your 
 
 **Help! I disabled the module and there are extra feat sections with weird names!**
 <img width="1207" height="734" alt="image" src="https://github.com/user-attachments/assets/6da2c18b-a4d4-44c7-81a6-ac4b31e5a437" />
-Unfortunately due to limitations of Foundry, this module can't run its cleanup code when the module is disabled. To get rid of these sections, re-enable the module, deselect the relevant sections in the module's settings, then disable the module again.
+Unfortunately due to limitations of Foundry, this module can't run its cleanup code when the module is disabled. To get rid of these sections, you have two options:
+- re-enable the module, deselect the relevant sections in the module's settings, then disable the module again
+- run the following code as a script macro
+
+```javascript
+const campaignFeatSections = game.settings.get(game.system.id, "campaignFeatSections");
+
+  if (
+    campaignFeatSections &&
+    campaignFeatSections.find((section) => section.id === "ancestryParagon")
+  ) {
+    campaignFeatSections.splice(
+      campaignFeatSections.findIndex((section) => section.id === "ancestryParagon"),
+      1,
+    );
+    await game.settings.set("pf2e", "campaignFeatSections", campaignFeatSections);
+  }
+
+  if (
+    campaignFeatSections &&
+    campaignFeatSections.find(
+      (section) => section.id === "skillParagon",
+    )
+  ) {
+    campaignFeatSections.splice(
+      campaignFeatSections.findIndex(
+        (section) => section.id === "skillParagon",
+      ),
+      1,
+    );
+    await game.settings.set("pf2e", "campaignFeatSections", campaignFeatSections);
+  }
+
+  if (
+    campaignFeatSections &&
+    campaignFeatSections.find(
+      (section) => section.id === "magaambyaBranches",
+    )
+  ) {
+    campaignFeatSections.splice(
+      campaignFeatSections.findIndex(
+        (section) => section.id === "magaambyaBranches",
+      ),
+      1,
+    );
+    campaignFeatSections.splice(
+      campaignFeatSections.findIndex(
+        (section) => section.id === "magaambyaBenefits",
+      ),
+      1,
+    );
+    campaignFeatSections.splice(
+      campaignFeatSections.findIndex(
+        (section) => section.id === "magaambyaBenefitsSecondary",
+      ),
+      1,
+    );
+    
+    await game.settings.set(game.system.id, "campaignFeatSections", campaignFeatSections);
+  }
+```
