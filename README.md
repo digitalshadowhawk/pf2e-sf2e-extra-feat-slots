@@ -16,3 +16,9 @@ For feats to use with the Magaambya Branch Benefit feat slots, see https://found
 
 To use, simply enable the module and tick on whichever setts of feat slots your table requires in settings
 <img width="1171" height="1022" alt="image" src="https://github.com/user-attachments/assets/4c432a9a-9a82-4ad6-8cc5-915290f2e93b" />
+
+# Troubleshooting
+
+**Help! I disabled the module and there are extra feat sections with weird names!**
+<img width="1207" height="734" alt="image" src="https://github.com/user-attachments/assets/6da2c18b-a4d4-44c7-81a6-ac4b31e5a437" />
+Unfortunately due to limitations of Foundry, this module can't run its cleanup code when the module is disabled. To get rid of these sections, re-enable the module, deselect the relevant sections in the module's settings, then disable the module again.
