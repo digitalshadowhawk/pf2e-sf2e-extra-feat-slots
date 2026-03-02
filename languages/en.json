@@ -19,6 +19,14 @@
                     "benefitsLabel": "Magaambya Primary Branch Benefits",
                     "benefitsLabelSecondary": "Magaambya Secondary Branch Benefits"
                 }
+            },
+            "custom": {
+                "name": "Custom Feat Section",
+                "hint": "Adds an additional Feat section with one entry at each level."
+            },
+            "customName": {
+                "name": "Custom Feat Section Header",
+                "hint": "The name of the custom feat section displayed on the sheet."
             }
         }
     }
