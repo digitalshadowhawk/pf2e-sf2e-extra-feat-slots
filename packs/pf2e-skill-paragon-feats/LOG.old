@@ -1,8 +1,5 @@
-2026/02/27-21:20:49.736 17eec Recovering log #30
-2026/02/27-21:20:49.747 17eec Delete type=0 #30
-2026/02/27-21:20:49.747 17eec Delete type=3 #28
-2026/02/27-21:22:46.699 16d60 Level-0 table #35: started
-2026/02/27-21:22:46.699 16d60 Level-0 table #35: 0 bytes OK
-2026/02/27-21:22:46.703 16d60 Delete type=0 #33
-2026/02/27-21:22:46.703 16d60 Manual compaction at level-0 from '!items!0PlphdVLpZ9BI7V3' @ 72057594037927935 : 1 .. '!items!yPXE3sGFUanh5AsG' @ 0 : 0; will stop at (end)
-2026/02/27-21:22:46.703 16d60 Manual compaction at level-1 from '!items!0PlphdVLpZ9BI7V3' @ 72057594037927935 : 1 .. '!items!yPXE3sGFUanh5AsG' @ 0 : 0; will stop at (end)
+2026/03/04-09:19:44.394 4064 Log #37: 0 ops saved to Table #38 OK
+2026/03/04-09:19:44.395 4064 Archiving ..\Data\modules\pf2e-sf2e-extra-feat-slots\packs\pf2e-skill-paragon-feats/000037.log: OK
+2026/03/04-09:19:44.395 4064 Table #5: 35 entries OK
+2026/03/04-09:19:44.399 4064 Archiving ..\Data\modules\pf2e-sf2e-extra-feat-slots\packs\pf2e-skill-paragon-feats/MANIFEST-000036: OK
+2026/03/04-09:19:44.404 4064 **** Repaired leveldb ..\Data\modules\pf2e-sf2e-extra-feat-slots\packs\pf2e-skill-paragon-feats; recovered 1 files; 32478 bytes. Some data may have been lost. ****

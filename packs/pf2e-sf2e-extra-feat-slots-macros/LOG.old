@@ -1,8 +1,5 @@
-2026/02/28-12:47:09.544 2caf4 Recovering log #17
-2026/02/28-12:47:09.552 2caf4 Delete type=0 #17
-2026/02/28-12:47:09.553 2caf4 Delete type=3 #15
-2026/02/28-12:50:16.129 2b810 Level-0 table #22: started
-2026/02/28-12:50:16.129 2b810 Level-0 table #22: 0 bytes OK
-2026/02/28-12:50:16.133 2b810 Delete type=0 #20
-2026/02/28-12:50:16.152 2b810 Manual compaction at level-0 from '!macros!fJ1wcCbWM40kdOku' @ 72057594037927935 : 1 .. '!macros!fJ1wcCbWM40kdOku' @ 0 : 0; will stop at (end)
-2026/02/28-12:50:16.152 2b810 Manual compaction at level-1 from '!macros!fJ1wcCbWM40kdOku' @ 72057594037927935 : 1 .. '!macros!fJ1wcCbWM40kdOku' @ 0 : 0; will stop at (end)
+2026/03/04-09:19:44.422 58ec Log #24: 0 ops saved to Table #25 OK
+2026/03/04-09:19:44.423 58ec Archiving ..\Data\modules\pf2e-sf2e-extra-feat-slots\packs\pf2e-sf2e-extra-feat-slots-macros/000024.log: OK
+2026/03/04-09:19:44.423 58ec Table #14: 1 entries OK
+2026/03/04-09:19:44.428 58ec Archiving ..\Data\modules\pf2e-sf2e-extra-feat-slots\packs\pf2e-sf2e-extra-feat-slots-macros/MANIFEST-000023: OK
+2026/03/04-09:19:44.436 58ec **** Repaired leveldb ..\Data\modules\pf2e-sf2e-extra-feat-slots\packs\pf2e-sf2e-extra-feat-slots-macros; recovered 1 files; 947 bytes. Some data may have been lost. ****

@@ -1,0 +1,43 @@
+<div class="pf2e-bonus-feats-feat-config">
+    <p>Press the Save & Close button below for any changes made here to take effect; they'll show up on sheets immediately. Closing the window without pressing Save will revert all changes.</p>
+    <table>
+        <tr>
+            <td><label for="presets">Add a preset:</label></td>
+            <td>
+                <select name="sectionPresets" id="sectionPresets">
+                    <option value="ancestryParagon" data-section-id="ancestryParagon">Ancestry Paragon</option>
+                    <option value="skillParagon" data-section-id="skillParagon">Skill Paragon</option>
+                    <option value="magaambyaBenefits" data-section-id="magaambyaBenefits">Magaambya Branch Benefits</option>
+                </select>
+            </td>
+            <td><button type="button" data-action="addPreset"><i class="fa-solid fa-plus"></i>Add Preset</button></td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>Section Label</th>
+            <th>Feat Types</th>
+            <th>Levels</th>
+            <th></th>
+        </tr>
+        {{#each featSections as |section i|}}
+        <tr>
+            <td>{{section.label}}</td>
+            <td>
+                {{#each section.supported as |type t|}} <div class="tag">{{pf2eBonusFeatsFormatTagLabel type}}</div> {{else}} <div class="tag">Any</div> {{/each}}
+            </td>
+            <td>{{#each section.slots as |level l|}} <div class="tag">{{level}}</div> {{else}} <div class="tag">None Selected</div> {{/each}}</td>
+            <td>
+                <button type="button" data-action="removeSection" data-section-id="{{section.id}}"><i class="fas fa-trash"></i></button>
+                <button type="button" data-action="editSection" data-section-id="{{section.id}}"><i class="fas fa-pencil"></i></button>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+    
+    <footer class="form-footer">
+        <button type="button" data-action="saveSections"><i class="fa-solid fa-floppy-disk"></i> Save & Close</button>
+        <button type="button" data-action="addSection"><i class="fa-regular fa-plus"></i>Add Section</button>
+    </footer>
+    
+</div>

@@ -1,67 +1,23 @@
+import { MODULE_ID, registerSettings } from "./settings.js";
+import { BonusFeatsConfig } from "./BonusFeatsConfig.js";
+
 Hooks.on('init', function() {
-	game.settings.register("pf2e-sf2e-extra-feat-slots", "ancestryParagon", {
-		name: "pf2e-sf2e-extra-feat-slots.SETTINGS.ancestryParagon.name",
-    	hint: "pf2e-sf2e-extra-feat-slots.SETTINGS.ancestryParagon.hint",
-		scope: "world",
-		config: "true",
-    	requiresReload: true,
-		default: "false",
-		type: Boolean
-	});
-	game.settings.register("pf2e-sf2e-extra-feat-slots", "skillParagon", {
-		name: "pf2e-sf2e-extra-feat-slots.SETTINGS.skillParagon.name",
-   		hint: "pf2e-sf2e-extra-feat-slots.SETTINGS.skillParagon.hint",
-		scope: "world",
-		config: "true",
-   		requiresReload: true,
-		default: "false",
-		type: Boolean
-	});
-    game.settings.register("pf2e-sf2e-extra-feat-slots", "magaambyaBenefits", {
-	  	name: "pf2e-sf2e-extra-feat-slots.SETTINGS.magaambyaBenefits.name",
-      	hint: "pf2e-sf2e-extra-feat-slots.SETTINGS.magaambyaBenefits.hint",
-		scope: "world",
-		config: !(game.system.id === 'sf2e'),
-      	requiresReload: true,
-		default: "false",
-		type: Boolean
-	});
-  	game.settings.register("pf2e-sf2e-extra-feat-slots", "custom", {
-		name: "pf2e-sf2e-extra-feat-slots.SETTINGS.custom.name",
-    	hint: "pf2e-sf2e-extra-feat-slots.SETTINGS.custom.hint",
-		scope: "world",
-		config: "true",
-    	requiresReload: true,
-		default: "false",
-		type: Boolean
-	});
-  	game.settings.register("pf2e-sf2e-extra-feat-slots", "customName", {
-		name: "pf2e-sf2e-extra-feat-slots.SETTINGS.customName.name",
-    	hint: "pf2e-sf2e-extra-feat-slots.SETTINGS.customName.hint",
-		scope: "world",
-		config: "true",
-    	requiresReload: false,
-		default: "Custom Feat Section",
-		type: String,
-    	onChange: (value) => {
-      		const campaignFeatSections = game.settings.get(game.system.id, "campaignFeatSections")
-      		campaignFeatSections[campaignFeatSections.findIndex((section) => section.id === "custom")].label = value;
-      		game.settings.set(game.system.id, "campaignFeatSections", campaignFeatSections);
-    	}
-	});
+	registerSettings()
 });
 
 
 
 Hooks.once("ready", () => {
     variantFeats();
+    BonusFeatsConfig.removeOldFeatSections();
+    updateCustomFeats();
 });
 
 async function variantFeats() {
-  const ancestryParagon = game.settings.get("pf2e-sf2e-extra-feat-slots", "ancestryParagon");
-  const skillParagon = game.settings.get("pf2e-sf2e-extra-feat-slots", "skillParagon");
-  const magaambyaBenefits = game.settings.get("pf2e-sf2e-extra-feat-slots", "magaambyaBenefits");
-  const custom = game.settings.get("pf2e-sf2e-extra-feat-slots", "custom");
+  const ancestryParagon = game.settings.get(MODULE_ID, "ancestryParagon");
+  const skillParagon = game.settings.get(MODULE_ID, "skillParagon");
+  const magaambyaBenefits = game.settings.get(MODULE_ID, "magaambyaBenefits");
+  const custom = game.settings.get(MODULE_ID, "custom");
 
   // Add campaign feat sections if enabled
   if (ancestryParagon || skillParagon || magaambyaBenefits) {  
@@ -114,7 +70,7 @@ async function variantFeats() {
       if (!campaignFeatSections.find((section) => section.id === "custom")) {
         campaignFeatSections.push({
           id: "custom",
-          label: game.settings.get("pf2e-sf2e-extra-feat-slots", "customName"),
+          label: game.settings.get(MODULE_ID, "customName"),
           slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
         });
       }
@@ -195,3 +151,44 @@ async function variantFeats() {
     await game.settings.set(game.system.id, "campaignFeatSections", campaignFeatSections);
   }
 }
+
+export function updateCustomFeats(){
+    const customFeatSections = game.settings.get(MODULE_ID, "customFeatSections");
+
+    if (customFeatSections) {
+        // Grab the existing list of custom sections
+        const campaignFeatSections = game.settings.get(game.system.id, "campaignFeatSections");
+
+        // Remove old sections that no longer exist in our configs
+        let updatedCampaignFeatSections = campaignFeatSections.filter( (section) => {
+            const sectionSourceIsThisModule = section.id.startsWith("pf2e-sf2e-extra-feat-slots-");
+            const sectionIsNotInCustomFeats = customFeatSections.findIndex((s) => s.id === section.id) === -1;
+            const removeSection = sectionIsNotInCustomFeats && sectionSourceIsThisModule;
+            return !removeSection;
+        });
+
+        // Add or update our custom sections
+        //  Cycle through each section in our config
+        //  Check the campaign feat sections list; compare id's to get the index of our section
+        //  If our section doesn't exist (index -1), then we add our section
+        //  If our section does exist (index > -1), when we replace it with a fresh version from our config to account for updates
+        customFeatSections.forEach( (customSection) => {
+            const idx = updatedCampaignFeatSections.findIndex((existingSection) => existingSection.id === customSection.id);
+            if(idx < 0){
+                updatedCampaignFeatSections.push(customSection);
+            } else {
+                updatedCampaignFeatSections[idx] = customSection; 
+            }
+        });
+
+        // Update the setting
+        game.settings.set(game.system.id, "campaignFeatSections", updatedCampaignFeatSections);
+    }
+}
+
+
+Handlebars.registerHelper("pf2eSf2eExtraFeatSotsFormatTagLabel", function (value) {
+    const locKey = CONFIG.PF2E.featCategories[value];
+    const formattedLabel = game.i18n.localize(locKey);
+    return formattedLabel;
+});
