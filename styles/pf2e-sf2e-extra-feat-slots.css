@@ -1,0 +1,43 @@
+body.theme-dark, .themed.theme-dark {
+  --pf2e-sf2e-extra-feat-slots-tag-bg: rgba(11, 10, 19, 0.5);
+  --pf2e-sf2e-extra-feat-slots-tag-border: #9f8475;
+  --pf2e-sf2e-extra-feat-slots-tag-color: #e7d1b1;
+}
+
+body.theme-light, .themed.theme-light {
+  --pf2e-sf2e-extra-feat-slots-tag-bg: rgba(0, 0, 0, 0.1);
+  --pf2e-sf2e-extra-feat-slots-tag-border: #555555;
+  --pf2e-sf2e-extra-feat-slots-tag-color: #111111;
+}
+
+#pf2e-sf2e-extra-feat-slots-add-section-dialog .form-group {
+  margin-bottom: 10px;
+}
+
+#pf2e-sf2e-extra-feat-slots-edit-feat-sections p {
+  margin: 0px;
+}
+#pf2e-sf2e-extra-feat-slots-edit-feat-sections table {
+  margin: 0px;
+}
+#pf2e-sf2e-extra-feat-slots-edit-feat-sections table th {
+  text-align: left;
+}
+#pf2e-sf2e-extra-feat-slots-edit-feat-sections table th:last-child, #pf2e-sf2e-extra-feat-slots-edit-feat-sections table td:last-child {
+  text-align: right;
+  display: flex;
+  flex-direction: row-reverse;
+}
+#pf2e-sf2e-extra-feat-slots-edit-feat-sections table td .tag {
+  display: inline-block;
+  gap: 0.25rem;
+  padding: 0.25rem 0.3rem;
+  border: 1px solid var(--pf2e-sf2e-extra-feat-slots-tag-border);
+  border-radius: 4px;
+  background-color: var(--pf2e-sf2e-extra-feat-slots-tag-bg);
+  color: var(--pf2e-sf2e-extra-feat-slots-tag-color);
+  text-transform: capitalize;
+}
+#pf2e-sf2e-extra-feat-slots-edit-feat-sections footer {
+  display: flex;
+}

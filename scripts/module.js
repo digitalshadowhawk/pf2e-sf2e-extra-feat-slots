@@ -187,7 +187,7 @@ export function updateCustomFeats(){
 }
 
 
-Handlebars.registerHelper("pf2eSf2eExtraFeatSotsFormatTagLabel", function (value) {
+Handlebars.registerHelper("pf2eSf2eExtraFeatSlotsFormatTagLabel", function (value) {
     const locKey = CONFIG.PF2E.featCategories[value];
     const formattedLabel = game.i18n.localize(locKey);
     return formattedLabel;
