@@ -5,13 +5,81 @@ Hooks.on('init', function() {
 	registerSettings()
 });
 
-
-
 Hooks.once("ready", () => {
     variantFeats();
     BonusFeatsConfig.removeOldFeatSections();
     updateCustomFeats();
 });
+
+window['pf2e-sf2e-extra-feat-slots'] = {
+  generateSkillParagonFeat: generateSkillParagonFeat
+}
+
+async function generateSkillParagonFeat(skill) {
+  let packFinder = [];
+
+  if(game.system.id === "pf2e")
+    packFinder.push("pf2e.feats-srd");
+  if(game.modules.get("sf2e-anachronism")?.active)
+    packFinder.push("sf2e-anachronism.feats");
+  if(game.system.id === "sf2e")
+    packFinder.push("sf2e.feats");
+
+  const packs = packFinder;
+  
+  const baseItemData = `{
+    "name": "`+skill.charAt(0).toUpperCase() + skill.slice(1)+` Paragon",
+    "type": "feat",
+    "system": {
+      "rules": [{
+        "key": "ActiveEffectLike",
+        "mode": "upgrade",
+        "path": "system.skills.`+skill+`.rank",
+        "value": "ternary(gte(@actor.level, 15), 4, ternary(gte(@actor.level, 7), 3, ternary(gte(@actor.level, 3), 2, 1)))"
+      }]
+    }
+  }`;
+
+  let data = JSON.parse(baseItemData);
+  for(const pack of packs) {
+    const idx = await game.packs.get(pack).getIndex({fields: ["system.traits.value", "system.traits.rarity", "system.prerequisites.value", "system.level.value"]});
+    const traits = ["general", "skill"]
+    const skillGeneralFeats = idx.filter(e => e.system.traits.value.every(s => traits.includes(s)) && e.system.traits.rarity === "common");
+    console.log(skillGeneralFeats)
+    for(const featData of skillGeneralFeats) {
+      const prereqs = featData.system.prerequisites.value;
+      const prerequisitesArr = prereqs.map((prerequisite) => prerequisite?.value ? prerequisite.value.toLowerCase() : "");
+      const skills = new Set();
+      for (const prereq of prerequisitesArr) {
+        for (const [key, value] of Object.entries(CONFIG.PF2E.skills)) {
+          // Check the string for the english translation key or a translated skill name
+          const translated = game.i18n.localize(value.label).toLocaleLowerCase(game.i18n.lang);
+          if (prereq.includes(key) || prereq.includes(translated)) {
+            if(key === skill) {
+              data.system.rules.push(
+                {
+                  "key": "GrantItem",
+                  "uuid": featData.uuid,
+                  "allowDuplicate": false,
+                  "reevaluateOnUpdate": true,
+                  "predicate": [
+                  {
+                    "gte": [
+                    "self:level",
+                    featData.system.level.value
+                  ]
+                  }]
+                }
+              )
+            }
+          }
+        }
+      }
+    }
+  }
+
+  Item.create(data);
+}
 
 async function variantFeats() {
   const ancestryParagon = game.settings.get(MODULE_ID, "ancestryParagon");

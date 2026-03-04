@@ -58,7 +58,7 @@ export class BonusFeatsConfig extends HandlebarsApplicationMixin(ApplicationV2) 
             let newSection = {
                 id: "pf2e-sf2e-extra-feat-slots-skill-paragon",
                 label: game.i18n.localize("pf2e-sf2e-extra-feat-slots.SETTINGS.skillParagon.label"),
-                supported: ["skill"],
+                supported: ["bonus"],
                 slots: [1]
             };
             this.featSections.push(newSection);
