@@ -14,19 +14,23 @@ This module aims to add extra feat slots for assorted variant rules and subsyste
 <img width="1164" height="1942" alt="image" src="https://github.com/user-attachments/assets/7e3d46aa-d4ca-43c7-9e4d-64b8c09c9165" />
 
 
-Additionally, it includes compendiums of feats for PF2e and SF2e that will grant all the relevant skill feats for Skill Paragon at the appropriate levels and prerequisite unlocks.
+~~Additionally, it includes compendiums of feats for PF2e and SF2e that will grant all the relevant skill feats for Skill Paragon at the appropriate levels and prerequisite unlocks.~~
+As of version 0.2.0, these compendiums shouldn't be used, and you should instead use the macro that will dynamically generate a dummy feat with all relevant feats from all available sources that have been added to this module's sources.
+
 For feats to use with the Magaambya Branch Benefit feat slots, see https://foundryvtt.com/packages/pf2e-magaambya
 
-To use, simply enable the module and tick on whichever setts of feat slots your table requires in settings
-<img width="1171" height="1022" alt="image" src="https://github.com/user-attachments/assets/4c432a9a-9a82-4ad6-8cc5-915290f2e93b" />
+To use, simply enable the module, open the feaat section editor, and add whatever sections you need. Currently there are three presets, Ancestry Paragon, Skill Paragon, and Magaambya Branch Benefits
+<img width="1176" height="1030" alt="image" src="https://github.com/user-attachments/assets/44e9c05a-0c51-4ddd-a716-582ec2103da6" />
+<img width="1350" height="825" alt="image" src="https://github.com/user-attachments/assets/065fa7ed-61f6-445e-840b-5120266d1f22" />
+
 
 # Troubleshooting
 
 **Help! I disabled the module and there are extra feat sections with weird names!**
 <img width="1207" height="734" alt="image" src="https://github.com/user-attachments/assets/6da2c18b-a4d4-44c7-81a6-ac4b31e5a437" />
 Unfortunately due to limitations of Foundry, this module can't run its cleanup code when the module is disabled. To get rid of these sections, you have two options:
-- re-enable the module, deselect the relevant sections in the module's settings, then disable the module again
-- run the following code as a script macro
+- re-enable the module, delete the relevant sections in the module's settings, then disable the module again
+- run the following code as a script macro (this only works for the old sections created prior to version 0.1.0)
 
 ```javascript
 const campaignFeatSections = game.settings.get(game.system.id, "campaignFeatSections");
@@ -82,6 +86,21 @@ const campaignFeatSections = game.settings.get(game.system.id, "campaignFeatSect
       1,
     );
     
+    await game.settings.set(game.system.id, "campaignFeatSections", campaignFeatSections);
+  }
+
+  if (
+    campaignFeatSections &&
+    campaignFeatSections.find(
+      (section) => section.id === "custom",
+    )
+  ) {
+    campaignFeatSections.splice(
+      campaignFeatSections.findIndex(
+        (section) => section.id === "custom",
+      ),
+      1,
+    );
     await game.settings.set(game.system.id, "campaignFeatSections", campaignFeatSections);
   }
 ```
