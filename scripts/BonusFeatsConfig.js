@@ -15,7 +15,7 @@ export class BonusFeatsConfig extends HandlebarsApplicationMixin(ApplicationV2) 
         window: {
             contentClasses: ["standard-form"],
             resizable: true,
-            title: "Configure Custom Feat Sections",
+            title: "pf2e-sf2e-extra-feat-slots.SETTINGS.config.title",
         },
         position: {
             width: 900

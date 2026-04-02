@@ -1,1 +1,8 @@
-
+{
+    "scripts": {
+        "pullJSONtoLDB": "node ./tools/pullJSONtoLDB.mjs"
+    },
+    "devDependencies": {
+        "@foundryvtt/foundryvtt-cli": "^3.0.3"
+    }
+}

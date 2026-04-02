@@ -18,6 +18,10 @@ jobs:
     # pack packs
     # - run: npm run pack
 
+    - name: Build Packs
+      run: |
+       npm run pullJSONtoLDB --if-present
+
     # Substitute the Manifest and Download URLs in the module.json
     - name: Substitute Manifest and Download Links For Versioned Ones
       id: sub_manifest_link_version

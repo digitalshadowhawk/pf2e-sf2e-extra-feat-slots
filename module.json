@@ -62,28 +62,6 @@
   "readme": "README.md",
   "packs": [
     {
-      "name": "pf2e-skill-paragon-feats",
-      "label": "Skill Paragon Feats (PF2e)",
-      "path": "packs/pf2e-skill-paragon-feats",
-      "type": "Item",
-      "system": "pf2e",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
-      "name": "sf2e-skill-paragon-feats",
-      "label": "Skill Paragon Feats (SF2e)",
-      "path": "packs/sf2e-skill-paragon-feats",
-      "type": "Item",
-      "system": "sf2e",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
       "name": "pf2e-sf2e-extra-feat-slots-macros",
       "label": "Macros",
       "path": "packs/pf2e-sf2e-extra-feat-slots-macros",

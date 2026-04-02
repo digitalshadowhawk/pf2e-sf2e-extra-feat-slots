@@ -53,13 +53,13 @@ export function registerSettings() {
     	}
 	});
     game.settings.registerMenu(MODULE_ID, "featsConfigEditor", {
-        name: "Configure Bonus Feats",
-        label: "Configure Bonus Feats",
+        name: "pf2e-sf2e-extra-feat-slots.SETTINGS.gameSettings.configure",
+        label: "pf2e-sf2e-extra-feat-slots.SETTINGS.gameSettings.configure",
         icon: "fas fa-wrench",
         type: BonusFeatsConfig,
         restricted: true,
         requiresReload: true,
-        hint: "Configure additional feat sections to display on the feats tab of PC sheets. Choose what type of feats can go in each section, and what levels you get them at."
+        hint: "pf2e-sf2e-extra-feat-slots.SETTINGS.gameSettings.instructions"
     });
 
     game.settings.register(MODULE_ID, 'customFeatSections', {

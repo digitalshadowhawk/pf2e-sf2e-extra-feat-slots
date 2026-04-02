@@ -27,6 +27,27 @@
             "customName": {
                 "name": "Custom Feat Section Header",
                 "hint": "The name of the custom feat section displayed on the sheet."
+            },
+            "config": {
+                "title": "Configure Custom Feat Sections", 
+                "instructions": "Press the Save & Close button below for any changes made here to take effect; they'll show up on sheets immediately. Closing the window without pressing Save will revert all changes.",
+                "preset": {
+                    "label": "Add a preset:",
+                    "button": "Add Preset"
+                },
+                "header": {
+                    "label": "Section Label",
+                    "type": "Feat Types",
+                    "levels": "Levels"
+                },
+                "save": "Save & Close",
+                "add": "Add Section",
+                "none": "None Selected",
+                "any": "Any"
+            },
+            "gameSettings": {
+                "configure": "Configure Bonus Feats",
+                "instructions": "Configure additional feat sections to display on the feats tab of PC sheets. Choose what type of feats can go in each section, and what levels you get them at."
             }
         }
     }
