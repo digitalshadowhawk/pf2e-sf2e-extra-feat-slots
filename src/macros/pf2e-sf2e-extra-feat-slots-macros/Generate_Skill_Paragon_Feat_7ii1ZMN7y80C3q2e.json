@@ -1,0 +1,28 @@
+{
+  "name": "Generate Skill Paragon Feat",
+  "type": "script",
+  "command": "new foundry.applications.api.DialogV2({\n  window: { title: \"Choose a skill\"},\n  content: `\n    <select id=\"skillSelect\">${Object.entries(CONFIG.PF2E.skills).map(([k, v]) => `<option value='${k}'>${game.i18n.localize(v.label)}</option>`).join(``)}</select>\n  `,\n  buttons: [{\n    action: \"generate\",\n    label: \"Generate\",\n    default: true\n  }],\n  submit: async (result, dialog) => {\n    const select = document.querySelector(\"#skillSelect\");\n    window['pf2e-sf2e-extra-feat-slots'].generateSkillParagonFeat(`${select?.value}`)\n  }\n}).render({force: true })",
+  "img": "icons/svg/dice-target.svg",
+  "author": "OZOrLrARZHGYM9n0",
+  "scope": "global",
+  "folder": null,
+  "ownership": {
+    "default": 0,
+    "OZOrLrARZHGYM9n0": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "pf2e",
+    "systemVersion": "7.11.1",
+    "createdTime": 1772660148217,
+    "modifiedTime": 1772660148217,
+    "lastModifiedBy": "OZOrLrARZHGYM9n0"
+  },
+  "_id": "7ii1ZMN7y80C3q2e",
+  "sort": 0,
+  "_key": "!macros!7ii1ZMN7y80C3q2e"
+}

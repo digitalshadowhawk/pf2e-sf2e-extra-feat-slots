@@ -1,0 +1,28 @@
+{
+  "name": "Remove Old Feat Sections After Disabling",
+  "type": "script",
+  "command": "const campaignFeatSections = game.settings.get(game.system.id, \"campaignFeatSections\");\n\n  if (\n    campaignFeatSections &&\n    campaignFeatSections.find((section) => section.id === \"ancestryParagon\")\n  ) {\n    campaignFeatSections.splice(\n      campaignFeatSections.findIndex((section) => section.id === \"ancestryParagon\"),\n      1,\n    );\n    await game.settings.set(game.system.id, \"campaignFeatSections\", campaignFeatSections);\n  }\n\n  if (\n    campaignFeatSections &&\n    campaignFeatSections.find(\n      (section) => section.id === \"skillParagon\",\n    )\n  ) {\n    campaignFeatSections.splice(\n      campaignFeatSections.findIndex(\n        (section) => section.id === \"skillParagon\",\n      ),\n      1,\n    );\n    await game.settings.set(game.system.id, \"campaignFeatSections\", campaignFeatSections);\n  }\n\n  if (\n    campaignFeatSections &&\n    campaignFeatSections.find(\n      (section) => section.id === \"magaambyaBranches\",\n    )\n  ) {\n    campaignFeatSections.splice(\n      campaignFeatSections.findIndex(\n        (section) => section.id === \"magaambyaBranches\",\n      ),\n      1,\n    );\n    campaignFeatSections.splice(\n      campaignFeatSections.findIndex(\n        (section) => section.id === \"magaambyaBenefits\",\n      ),\n      1,\n    );\n    campaignFeatSections.splice(\n      campaignFeatSections.findIndex(\n        (section) => section.id === \"magaambyaBenefitsSecondary\",\n      ),\n      1,\n    );\n    \n    await game.settings.set(game.system.id, \"campaignFeatSections\", campaignFeatSections);\n  }\n\nif (\n    campaignFeatSections &&\n    campaignFeatSections.find((section) => section.id === \"custom\")\n  ) {\n    campaignFeatSections.splice(\n      campaignFeatSections.findIndex((section) => section.id === \"custom\"),\n      1,\n    );\n    await game.settings.set(game.system.id, \"campaignFeatSections\", campaignFeatSections);\n  }",
+  "img": "icons/svg/dice-target.svg",
+  "author": "FmfifLIOr4CQQOc0",
+  "scope": "global",
+  "folder": null,
+  "ownership": {
+    "default": 0,
+    "FmfifLIOr4CQQOc0": 3
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "pf2e",
+    "systemVersion": "7.10.1",
+    "createdTime": 1772248947425,
+    "modifiedTime": 1772642187266,
+    "lastModifiedBy": "OZOrLrARZHGYM9n0"
+  },
+  "_id": "fJ1wcCbWM40kdOku",
+  "sort": 0,
+  "_key": "!macros!fJ1wcCbWM40kdOku"
+}
