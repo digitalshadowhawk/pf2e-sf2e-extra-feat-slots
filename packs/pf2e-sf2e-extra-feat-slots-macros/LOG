@@ -1,8 +1,0 @@
-2026/04/02-16:44:04.354 8324 Recovering log #4
-2026/04/02-16:44:04.364 8324 Delete type=0 #4
-2026/04/02-16:44:04.365 8324 Delete type=3 #2
-2026/04/02-16:44:29.500 ccec Level-0 table #9: started
-2026/04/02-16:44:29.500 ccec Level-0 table #9: 0 bytes OK
-2026/04/02-16:44:29.505 ccec Delete type=0 #7
-2026/04/02-16:44:29.505 ccec Manual compaction at level-0 from '!macros!7ii1ZMN7y80C3q2e' @ 72057594037927935 : 1 .. '!macros!fJ1wcCbWM40kdOku' @ 0 : 0; will stop at (end)
-2026/04/02-16:44:29.505 ccec Manual compaction at level-1 from '!macros!7ii1ZMN7y80C3q2e' @ 72057594037927935 : 1 .. '!macros!fJ1wcCbWM40kdOku' @ 0 : 0; will stop at (end)
