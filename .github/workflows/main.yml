@@ -12,7 +12,7 @@ jobs:
     # install npm
     # - run: npm install
     # install deps
-    # - run: npm ci
+    - run: npm ci
     # build sass
     # - run: npm run sass
     # pack packs
