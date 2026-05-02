@@ -24,6 +24,8 @@ async function generateSkillParagonFeat(skill) {
     packFinder.push("sf2e-anachronism.feats");
   if(game.system.id === "sf2e")
     packFinder.push("sf2e.feats");
+  if(game.modules.get("pf2e-anachronism")?.active)
+    packFinder.push("pf2e-anachronism.feats");
   if(game.modules.get("pf2e-feats-plus")?.active)
     packFinder.push("pf2e-feats-plus.player-options");
 

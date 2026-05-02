@@ -44,12 +44,14 @@ export class BonusFeatsConfig extends HandlebarsApplicationMixin(ApplicationV2) 
 
     static async addPreset(event) {
         const presetToAdd = document.getElementById("sectionPresets").value;
+        const toSlots = levels => levels.map(level => ({ id: foundry.utils.randomID(), level }));
+
         if(presetToAdd === "ancestryParagon") {
             let newSection = {
                 id: "pf2e-sf2e-extra-feat-slots-ancestry-paragon",
                 label: game.i18n.localize("pf2e-sf2e-extra-feat-slots.SETTINGS.ancestryParagon.label"),
                 supported: ["ancestry"],
-                slots: [1, 3, 7, 11, 15, 19]
+                slots: toSlots([1, 3, 7, 11, 15, 19])
             };
             this.featSections.push(newSection);
             this.render(true);
@@ -59,7 +61,7 @@ export class BonusFeatsConfig extends HandlebarsApplicationMixin(ApplicationV2) 
                 id: "pf2e-sf2e-extra-feat-slots-skill-paragon",
                 label: game.i18n.localize("pf2e-sf2e-extra-feat-slots.SETTINGS.skillParagon.label"),
                 supported: ["bonus"],
-                slots: [1]
+                slots: toSlots([1])
             };
             this.featSections.push(newSection);
             this.render(true);
@@ -69,19 +71,19 @@ export class BonusFeatsConfig extends HandlebarsApplicationMixin(ApplicationV2) 
                 id: "pf2e-sf2e-extra-feat-slots-magaambya-branches",
                 label: game.i18n.localize("pf2e-sf2e-extra-feat-slots.SETTINGS.magaambyaBenefits.categories.branchLabel"),
                 supported: ["bonus"],
-                slots: [1]
+                slots: toSlots([1])
             };
             let newSection2 = {
                 id: "pf2e-sf2e-extra-feat-slots-magaambya-benefits",
                 label: game.i18n.localize("pf2e-sf2e-extra-feat-slots.SETTINGS.magaambyaBenefits.categories.benefitsLabel"),
                 supported: ["bonus"],
-                slots: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+                slots: toSlots([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
             };
             let newSection3 = {
                 id: "pf2e-sf2e-extra-feat-slots-magaambya-benefits-secondary",
                 label: game.i18n.localize("pf2e-sf2e-extra-feat-slots.SETTINGS.magaambyaBenefits.categories.benefitsLabelSecondary"),
                 supported: ["bonus"],
-                slots: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+                slots: toSlots([2, 4, 6, 8, 10, 12, 14, 16, 18, 20])
             };
             this.featSections.push(newSection1);
             this.featSections.push(newSection2);
@@ -98,7 +100,7 @@ export class BonusFeatsConfig extends HandlebarsApplicationMixin(ApplicationV2) 
         const supportedField = foundry.applications.fields.createFormGroup({label: "Allowed Feat Types", input: typeCheckboxes}).outerHTML;
         
         const slotsHint = "Leaving this blank will not populate level based slots into the section. Otherwise, it expects a comma separated list. Entering the same number more than once will add additional slots at that level. Ex: 1, 1, 5, 7";
-        const slotsField = new foundry.data.fields.StringField({label: "Grant At Levels", hint: slotsHint}).toFormGroup({},{name:"slots"}).outerHTML;    ;
+        const slotsField = new foundry.data.fields.StringField({label: "Grant At Levels", hint: slotsHint}).toFormGroup({},{name:"slots"}).outerHTML;
         let content = labelField + supportedField + slotsField;
 
         foundry.applications.api.DialogV2.wait({
@@ -116,12 +118,13 @@ export class BonusFeatsConfig extends HandlebarsApplicationMixin(ApplicationV2) 
                 icon: "fa-regular fa-plus",
                 callback: async (event, button) => {
                     const data = new foundry.applications.ux.FormDataExtended(button.form).object;
+                    const newID = "pf2e-sf2e-extra-feat-slots-" + foundry.utils.randomID()
                     
                     let newSection = {
-                        id: "pf2e-sf2e-extra-feat-slots-" + foundry.utils.randomID(),
+                        id: newID,
                         label: data.label || "Custom Feat Section",
                         supported: !data.supported ? [] : data.supported,
-                        slots: !data.slots ? [] : data.slots.split(/,\s*/).map(Number).sort(function(a, b) {return a - b;})
+                        slots: !data.slots ? [] : data.slots.split(/,\s*/).map(Number).sort(function(a, b) {return a - b;}).map(level => ({ id: newID + "-" + foundry.utils.randomID(), level }))
                     };
 
                     this.featSections.push(newSection);
@@ -143,7 +146,7 @@ export class BonusFeatsConfig extends HandlebarsApplicationMixin(ApplicationV2) 
         const supportedField = foundry.applications.fields.createFormGroup({label: "Allowed Feat Types", input: typeCheckboxes}).outerHTML;
         
         const slotsHint = "Leaving this blank will not populate level based slots into the section. Otherwise, it expects a comma separated list. Entering the same number more than once will add additional slots at that level. Ex: 1, 1, 5, 7";
-        const slotsField = new foundry.data.fields.StringField({label: "Grant At Levels", hint: slotsHint, initial: sectionToEdit.slots}).toFormGroup({},{name:"slots"}).outerHTML;    ;
+        const slotsField = new foundry.data.fields.StringField({label: "Grant At Levels", hint: slotsHint, initial: sectionToEdit.slots.map(s => s.level)}).toFormGroup({},{name:"slots"}).outerHTML;
         let content = labelField + supportedField + slotsField;
 
         foundry.applications.api.DialogV2.wait({
@@ -166,7 +169,7 @@ export class BonusFeatsConfig extends HandlebarsApplicationMixin(ApplicationV2) 
                         id: sectionIdToEdit,
                         label: data.label || "Custom Feat Section",
                         supported: !data.supported ? [] : data.supported,
-                        slots: !data.slots ? [] : data.slots.split(/,\s*/).map(Number).sort(function(a, b) {return a - b;})
+                        slots: !data.slots ? [] : data.slots.split(/,\s*/).map(Number).sort(function(a, b) {return a - b;}).map(level => ({ id: sectionToEdit + "-" + foundry.utils.randomID(), level }))
                     };
 
                     const idx = this.featSections.findIndex(s => s.id === sectionIdToEdit);
