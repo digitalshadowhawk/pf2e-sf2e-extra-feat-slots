@@ -1,14 +1,14 @@
 import { MODULE_ID, registerSettings } from "./settings.js";
 import { BonusFeatsConfig } from "./BonusFeatsConfig.js";
 
-Hooks.on('init', function() {
-	registerSettings()
+Hooks.on('init', function () {
+  registerSettings()
 });
 
 Hooks.once("ready", () => {
-    variantFeats();
-    BonusFeatsConfig.removeOldFeatSections();
-    updateCustomFeats();
+  variantFeats();
+  BonusFeatsConfig.removeOldFeatSections();
+  updateCustomFeats();
 });
 
 window['pf2e-sf2e-extra-feat-slots'] = {
@@ -18,67 +18,72 @@ window['pf2e-sf2e-extra-feat-slots'] = {
 async function generateSkillParagonFeat(skill) {
   let packFinder = [];
 
-  if(game.system.id === "pf2e")
+  if (game.system.id === "pf2e")
     packFinder.push("pf2e.feats-srd");
-  if(game.modules.get("sf2e-anachronism")?.active)
+  if (game.modules.get("sf2e-anachronism")?.active)
     packFinder.push("sf2e-anachronism.feats");
-  if(game.system.id === "sf2e")
+  if (game.system.id === "sf2e")
     packFinder.push("sf2e.feats");
-  if(game.modules.get("pf2e-anachronism")?.active)
+  if (game.modules.get("pf2e-anachronism")?.active)
     packFinder.push("pf2e-anachronism.feats");
-  if(game.modules.get("pf2e-feats-plus")?.active)
+  if (game.modules.get("pf2e-feats-plus")?.active)
     packFinder.push("pf2e-feats-plus.player-options");
 
   const packs = packFinder;
-  
+
   const baseItemData = `{
-    "name": "`+skill.charAt(0).toUpperCase() + skill.slice(1)+` Paragon",
+    "name": "`+ skill.charAt(0).toUpperCase() + skill.slice(1) + ` Paragon",
     "type": "feat",
     "system": {
       "rules": [{
         "key": "ActiveEffectLike",
         "mode": "upgrade",
-        "path": "system.skills.`+skill+`.rank",
+        "path": "system.skills.`+ skill + `.rank",
         "value": "ternary(gte(@actor.level, 15), 4, ternary(gte(@actor.level, 7), 3, ternary(gte(@actor.level, 3), 2, 1)))"
       }]
     }
   }`;
 
   let data = JSON.parse(baseItemData);
-  for(const pack of packs) {
-    const idx = await game.packs.get(pack).getIndex({fields: ["system.traits.value", "system.traits.rarity", "system.prerequisites.value", "system.level.value"]});
-    const traits = ["general", "skill"]
-    const skillGeneralFeats = idx.filter(e => e.system.traits.value.every(s => traits.includes(s)) && e.system.traits.rarity === "common");
-    console.log(skillGeneralFeats)
-    for(const featData of skillGeneralFeats) {
-      const prereqs = featData.system.prerequisites.value;
-      const prerequisitesArr = prereqs.map((prerequisite) => prerequisite?.value ? prerequisite.value.toLowerCase() : "");
+
+  const excluded = ["archetype", "dedication", "mythic", ...Object.keys(CONFIG.PF2E.classTraits)];
+  const skillNames = Object.entries(CONFIG.PF2E.skills).map(([key, value]) => [
+    key,
+    game.i18n.localize(value.label).toLocaleLowerCase(game.i18n.lang)
+  ]);
+
+  for (const pack of packs) {
+    const idx = await game.packs.get(pack).getIndex({
+      fields: ["system.traits", "system.prerequisites.value", "system.level.value"]
+    });
+
+    const skillFeats = idx.filter(e => {
+      const traits = e.system.traits?.value ?? [];
+      return traits.includes("skill")
+        && !traits.some(t => excluded.includes(t))
+        && e.system.traits?.rarity === "common";
+    });
+
+    for (const featData of skillFeats) {
+      const prerequisites = (featData.system.prerequisites?.value ?? [])
+        .map(p => p?.value?.toLowerCase() ?? "");
+
       const skills = new Set();
-      for (const prereq of prerequisitesArr) {
-        for (const [key, value] of Object.entries(CONFIG.PF2E.skills)) {
-          // Check the string for the english translation key or a translated skill name
-          const translated = game.i18n.localize(value.label).toLocaleLowerCase(game.i18n.lang);
-          if (prereq.includes(key) || prereq.includes(translated)) {
-            if(key === skill) {
-              data.system.rules.push(
-                {
-                  "key": "GrantItem",
-                  "uuid": featData.uuid,
-                  "allowDuplicate": false,
-                  "reevaluateOnUpdate": true,
-                  "predicate": [
-                  {
-                    "gte": [
-                    "self:level",
-                    featData.system.level.value
-                  ]
-                  }]
-                }
-              )
-            }
-          }
+      for (const prereq of prerequisites) {
+        for (const [key, translated] of skillNames) {
+          if (prereq.includes(key) || prereq.includes(translated)) skills.add(key);
         }
       }
+
+      if (!skills.has(skill)) continue;
+
+      data.system.rules.push({
+        key: "GrantItem",
+        uuid: featData.uuid,
+        allowDuplicate: false,
+        reevaluateOnUpdate: true,
+        predicate: [{ gte: ["self:level", featData.system.level.value] }]
+      });
     }
   }
 
@@ -92,8 +97,8 @@ async function variantFeats() {
   const custom = game.settings.get(MODULE_ID, "custom");
 
   // Add campaign feat sections if enabled
-  if (ancestryParagon || skillParagon || magaambyaBenefits) {  
-    
+  if (ancestryParagon || skillParagon || magaambyaBenefits) {
+
     const campaignFeatSections = game.settings.get(game.system.id, "campaignFeatSections");
 
     if (ancestryParagon) {
@@ -207,7 +212,7 @@ async function variantFeats() {
       ),
       1,
     );
-    
+
     await game.settings.set(game.system.id, "campaignFeatSections", campaignFeatSections);
   }
 
@@ -224,43 +229,43 @@ async function variantFeats() {
   }
 }
 
-export function updateCustomFeats(){
-    const customFeatSections = game.settings.get(MODULE_ID, "customFeatSections");
+export function updateCustomFeats() {
+  const customFeatSections = game.settings.get(MODULE_ID, "customFeatSections");
 
-    if (customFeatSections) {
-        // Grab the existing list of custom sections
-        const campaignFeatSections = game.settings.get(game.system.id, "campaignFeatSections");
+  if (customFeatSections) {
+    // Grab the existing list of custom sections
+    const campaignFeatSections = game.settings.get(game.system.id, "campaignFeatSections");
 
-        // Remove old sections that no longer exist in our configs
-        let updatedCampaignFeatSections = campaignFeatSections.filter( (section) => {
-            const sectionSourceIsThisModule = section.id.startsWith("pf2e-sf2e-extra-feat-slots-");
-            const sectionIsNotInCustomFeats = customFeatSections.findIndex((s) => s.id === section.id) === -1;
-            const removeSection = sectionIsNotInCustomFeats && sectionSourceIsThisModule;
-            return !removeSection;
-        });
+    // Remove old sections that no longer exist in our configs
+    let updatedCampaignFeatSections = campaignFeatSections.filter((section) => {
+      const sectionSourceIsThisModule = section.id.startsWith("pf2e-sf2e-extra-feat-slots-");
+      const sectionIsNotInCustomFeats = customFeatSections.findIndex((s) => s.id === section.id) === -1;
+      const removeSection = sectionIsNotInCustomFeats && sectionSourceIsThisModule;
+      return !removeSection;
+    });
 
-        // Add or update our custom sections
-        //  Cycle through each section in our config
-        //  Check the campaign feat sections list; compare id's to get the index of our section
-        //  If our section doesn't exist (index -1), then we add our section
-        //  If our section does exist (index > -1), when we replace it with a fresh version from our config to account for updates
-        customFeatSections.forEach( (customSection) => {
-            const idx = updatedCampaignFeatSections.findIndex((existingSection) => existingSection.id === customSection.id);
-            if(idx < 0){
-                updatedCampaignFeatSections.push(customSection);
-            } else {
-                updatedCampaignFeatSections[idx] = customSection; 
-            }
-        });
+    // Add or update our custom sections
+    //  Cycle through each section in our config
+    //  Check the campaign feat sections list; compare id's to get the index of our section
+    //  If our section doesn't exist (index -1), then we add our section
+    //  If our section does exist (index > -1), when we replace it with a fresh version from our config to account for updates
+    customFeatSections.forEach((customSection) => {
+      const idx = updatedCampaignFeatSections.findIndex((existingSection) => existingSection.id === customSection.id);
+      if (idx < 0) {
+        updatedCampaignFeatSections.push(customSection);
+      } else {
+        updatedCampaignFeatSections[idx] = customSection;
+      }
+    });
 
-        // Update the setting
-        game.settings.set(game.system.id, "campaignFeatSections", updatedCampaignFeatSections);
-    }
+    // Update the setting
+    game.settings.set(game.system.id, "campaignFeatSections", updatedCampaignFeatSections);
+  }
 }
 
 
 Handlebars.registerHelper("pf2eSf2eExtraFeatSlotsFormatTagLabel", function (value) {
-    const locKey = CONFIG.PF2E.featCategories[value];
-    const formattedLabel = game.i18n.localize(locKey);
-    return formattedLabel;
+  const locKey = CONFIG.PF2E.featCategories[value];
+  const formattedLabel = game.i18n.localize(locKey);
+  return formattedLabel;
 });
